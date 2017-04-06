@@ -14,10 +14,9 @@ getAndRenderGeoList();
 });
 //define getAndRenderMap function
   function getAndRenderMap(json){
-    var map;
       map = new google.maps.Map(document.getElementById('map'),{
       center: {lat: 37.78, lng: -122.44},
-      zoom: 10
+      zoom: 4
       });
   }
 //define getAndRenderGeoList function
@@ -52,16 +51,24 @@ function OnSuccess(json){
 // need forEach loop
   var GeoListArr = json.features;
   var quakeHTML;
-  var lat, long;
+  var lat, lng;
   GeoListArr.forEach(function(element){
     quakeHTML = templateGeoList(element);
     $quakeList.append(quakeHTML);
 
+    lat = element.geometry.coordinates[0];
+    lng = element.geometry.coordinates[1];
+    
+    marker = new google.maps.Marker({
+    position:{lat: lat, lng: lng},
+    map: map
+      //title: quake.properties.title
+    });
+
   });
+ }
+
 }
-
-  }
-
 
   // append list to info id
   // Code to run if the request fails; the raw request and
